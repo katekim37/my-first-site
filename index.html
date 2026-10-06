@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>안녕하세요 소피아입니다 | 로컬 개발 서버</title>
+  <meta name="description" content="나의 첫 번째 웹사이트 프로젝트. HTML, CSS, JavaScript로 구현된 모던 인터랙티브 웹 애플리케이션입니다.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
+</head>
+<body data-theme="soft">
+
+  <!-- Ambient Animated Glowing Background -->
+  <div class="ambient-bg" aria-hidden="true">
+    <div class="ambient-orb orb-1"></div>
+    <div class="ambient-orb orb-2"></div>
+    <div class="ambient-orb orb-3"></div>
+  </div>
+
+  <!-- Confetti Canvas -->
+  <canvas id="confettiCanvas"></canvas>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="#" class="logo" id="logoLink">
+        <div class="logo-icon">✨</div>
+        <span>MyFirstSite</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#hero">홈</a></li>
+        <li><a href="#playground">플레이그라운드</a></li>
+        <li><a href="#guide">가이드</a></li>
+        <li><a href="#stats">서버 상태</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <!-- Live Server Status Indicator -->
+        <div class="status-pill" id="serverStatusPill" title="로컬 서버 연결 정상">
+          <span class="status-dot"></span>
+          <span id="serverPortText">localhost:3000</span>
+        </div>
+
+        <!-- Quick Theme Switcher -->
+        <div class="theme-selector" role="group" aria-label="테마 선택">
+          <button class="theme-btn active" data-theme-target="midnight" title="프레시 네이처 (기본)" id="themeBtnMidnight">🌿</button>
+          <button class="theme-btn" data-theme-target="cyberpunk" title="아이시 아쿠아" id="themeBtnCyberpunk">💧</button>
+          <button class="theme-btn" data-theme-target="emerald" title="셀라돈 그린" id="themeBtnEmerald">🌾</button>
+          <button class="theme-btn" data-theme-target="light" title="라임 크림" id="themeBtnLight">🍋</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="container hero-section" id="hero">
+      <div class="hero-content">
+        <div class="hero-badge-wrap">
+          <div class="hero-pill">
+            <span>🚀</span>
+            <span>첫 웹사이트 프로젝트 시작</span>
+          </div>
+          <span class="status-pill">
+            <span class="status-dot"></span>
+            <span>라이브 서버 실행 중</span>
+          </span>
+        </div>
+
+        <h1 class="hero-title">
+          <span class="hero-line">안녕하세요</span>
+          <span class="hero-line"><span class="highlight-name">소피아</span>입니다</span>
+        </h1>
+
+        <div class="hero-avatar-wrap">
+          <img src="assets/profile.jpg" alt="프로필 사진" class="hero-avatar" id="heroProfileImg">
+        </div>
+
+        <p class="hero-desc">
+          로컬 개발 서버가 성공적으로 실행되었습니다! HTML, CSS, JavaScript를 자유롭게 편집하여 나만의 멋진 아이디어를 현실로 만들어보세요.
+        </p>
+
+        <div class="hero-cta">
+          <button class="btn btn-primary" id="btnCelebrate">
+            <span>🎉 시작 축하 파티클 터뜨리기</span>
+          </button>
+          <a href="#playground" class="btn btn-secondary" id="btnExplore">
+            <span>인터랙티브 기능 둘러보기 ↓</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Playground Section -->
+    <section class="container playground-section" id="playground">
+      <div class="section-header">
+        <span class="section-tag">Interactive Features</span>
+        <h2 class="section-title">인터랙티브 플레이그라운드</h2>
+        <p class="section-desc">
+          자바스크립트의 역동적인 기능을 직접 경험해보세요. 버튼을 누르고 테마를 바꾸며 상태 변화를 확인해볼 수 있습니다.
+        </p>
+      </div>
+
+      <div class="playground-grid">
+        <!-- Card 1: Interactive Click Counter -->
+        <article class="card" id="cardCounter">
+          <div class="card-header">
+            <div class="card-icon">⚡</div>
+            <div>
+              <h3 class="card-title">클릭 인터랙션 & 카운터</h3>
+              <p class="card-desc">숫자를 올려보세요. 10단위마다 특별한 축하 효과가 나타납니다!</p>
+            </div>
+          </div>
+
+          <div class="counter-box">
+            <div class="counter-value" id="counterDisplay">0</div>
+            <div class="counter-controls">
+              <button class="counter-btn" id="btnDecrement" title="1 감소" aria-label="감소">-</button>
+              <button class="counter-btn counter-reset" id="btnReset" title="초기화">Reset</button>
+              <button class="counter-btn" id="btnIncrement" title="1 증가" aria-label="증가">+</button>
+            </div>
+            <div class="milestone-badge" id="milestoneBadge">시작 버튼을 눌러보세요!</div>
+          </div>
+        </article>
+
+        <!-- Card 2: Live Server & System Stats -->
+        <article class="card" id="stats">
+          <div class="card-header">
+            <div class="card-icon">📊</div>
+            <div>
+              <h3 class="card-title">서버 & 런타임 현황</h3>
+              <p class="card-desc">현재 실행 중인 로컬호스트 환경 정보입니다.</p>
+            </div>
+          </div>
+
+          <div class="stats-list">
+            <div class="stat-item">
+              <span class="stat-label"><span>🌐</span> 호스트 주소</span>
+              <span class="stat-value stat-highlight" id="statHost">http://localhost:3000</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label"><span>⏱️</span> 접속 유지 시간</span>
+              <span class="stat-value" id="statUptime">00:00:00</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label"><span>💻</span> 브라우저 환경</span>
+              <span class="stat-value" id="statPlatform">Web Client</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label"><span>⚡</span> 렌더링 상태</span>
+              <span class="stat-value stat-highlight">60 FPS (하드웨어 가속)</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 3: Theme Customizer -->
+        <article class="card" id="cardThemes">
+          <div class="card-header">
+            <div class="card-icon">🎨</div>
+            <div>
+              <h3 class="card-title">실시간 테마 커스텀</h3>
+              <p class="card-desc">원하는 분위기의 컬러 팔레트를 선택해보세요.</p>
+            </div>
+          </div>
+
+          <div class="theme-palette-grid">
+            <div class="theme-choice-card" data-set-theme="midnight" id="pickMidnight">
+              <div class="theme-preview-dots">
+                <span class="theme-dot" style="background: #EAFDCF; border: 1px solid #bcd39c;"></span>
+                <span class="theme-dot" style="background: #B1F8F2;"></span>
+                <span class="theme-dot" style="background: #BCD39C;"></span>
+              </div>
+              <span class="theme-choice-name">프레시 네이체 🌿</span>
+            </div>
+
+            <div class="theme-choice-card" data-set-theme="cyberpunk" id="pickCyberpunk">
+              <div class="theme-preview-dots">
+                <span class="theme-dot" style="background: #D4FCF8; border: 1px solid #4ABDB5;"></span>
+                <span class="theme-dot" style="background: #4ABDB5;"></span>
+                <span class="theme-dot" style="background: #BCD39C;"></span>
+              </div>
+              <span class="theme-choice-name">아이시 아쿠아 💧</span>
+            </div>
+
+            <div class="theme-choice-card" data-set-theme="emerald" id="pickEmerald">
+              <div class="theme-preview-dots">
+                <span class="theme-dot" style="background: #EEF7E0; border: 1px solid #8FB870;"></span>
+                <span class="theme-dot" style="background: #6DA048;"></span>
+                <span class="theme-dot" style="background: #B1F8F2;"></span>
+              </div>
+              <span class="theme-choice-name">셀라도 그린 🌾</span>
+            </div>
+
+            <div class="theme-choice-card" data-set-theme="light" id="pickLight">
+              <div class="theme-preview-dots">
+                <span class="theme-dot" style="background: #FFFDE6; border: 1px solid #D4C850;"></span>
+                <span class="theme-dot" style="background: #B8B500;"></span>
+                <span class="theme-dot" style="background: #4ABDB5;"></span>
+              </div>
+              <span class="theme-choice-name">라임 크림 🍋</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 4: Quick Scratchpad / LocalStorage -->
+        <article class="card" id="cardNotes">
+          <div class="card-header">
+            <div class="card-icon">📝</div>
+            <div>
+              <h3 class="card-title">개발 아이디어 메모장</h3>
+              <p class="card-desc">입력하는 즉시 브라우저 저장소(localStorage)에 자동 저장됩니다.</p>
+            </div>
+          </div>
+
+          <div class="note-container">
+            <textarea id="quickNoteArea" class="note-input" placeholder="여기에 만들고 싶은 사이트 아이디어나 할 일(To-do)을 적어보세요..."></textarea>
+            <div class="note-footer">
+              <span id="noteCharCount">0자 입력됨</span>
+              <span id="noteSaveStatus">자동 저장 완료 ✓</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Project Guide Section -->
+    <section class="container guide-section" id="guide">
+      <div class="section-header">
+        <span class="section-tag">Getting Started</span>
+        <h2 class="section-title">다음 단계는 무엇인가요?</h2>
+        <p class="section-desc">
+          내 손으로 직접 코드를 바꾸어보고 화면이 즉시 바뀌는 마법을 확인해보세요.
+        </p>
+      </div>
+
+      <div class="guide-grid">
+        <!-- Guide 1 -->
+        <article class="guide-card" id="guideHtml">
+          <div class="guide-number">01</div>
+          <div class="guide-icon">📄</div>
+          <h3 class="guide-card-title">HTML 구조 수정하기</h3>
+          <p class="guide-card-desc">
+            <span class="code-badge">index.html</span> 파일을 열고 제목, 소개 문구, 프로필 등을 내 것으로 바꾸어 보세요.
+          </p>
+          <div class="snippet-box">
+            <button class="copy-btn" data-copy-target="snippet1">복사</button>
+            <div class="snippet-content" id="snippet1">&lt;h1&gt;홍길동의 포트폴리오&lt;/h1&gt;</div>
+          </div>
+        </article>
+
+        <!-- Guide 2 -->
+        <article class="guide-card" id="guideCss">
+          <div class="guide-number">02</div>
+          <div class="guide-icon">🎨</div>
+          <h3 class="guide-card-title">스타일 & 컬러 꾸미기</h3>
+          <p class="guide-card-desc">
+            <span class="code-badge">style.css</span>의 <code>:root</code> 변수를 변경하여 나만의 시그니처 색상을 입혀보세요.
+          </p>
+          <div class="snippet-box">
+            <button class="copy-btn" data-copy-target="snippet2">복사</button>
+            <div class="snippet-content" id="snippet2">--accent-primary: #8b5cf6;</div>
+          </div>
+        </article>
+
+        <!-- Guide 3 -->
+        <article class="guide-card" id="guideJs">
+          <div class="guide-number">03</div>
+          <div class="guide-icon">⚙️</div>
+          <h3 class="guide-card-title">동작 기능 추가하기</h3>
+          <p class="guide-card-desc">
+            <span class="code-badge">script.js</span>에 새로운 함수나 애니메이션을 추가하여 방문자를 놀라게 해보세요.
+          </p>
+          <div class="snippet-box">
+            <button class="copy-btn" data-copy-target="snippet3">복사</button>
+            <div class="snippet-content" id="snippet3">alert('새로운 기능이 추가되었습니다!');</div>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast" role="alert" aria-live="polite">
+    <span id="toastIcon">✨</span>
+    <span id="toastMsg">알림 메시지</span>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div class="footer-text">
+        © 2026 <strong>MyFirstSite</strong> • 로컬 개발 서버가 정상 동작 중입니다.
+      </div>
+      <div class="footer-links">
+        <a href="#hero" class="footer-link">맨 위로</a>
+        <a href="https://developer.mozilla.org/ko/docs/Learn" target="_blank" rel="noopener" class="footer-link">MDN 웹 학습</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Script -->
+  <script src="script.js"></script>
+</body>
+</html>
