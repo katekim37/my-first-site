@@ -338,7 +338,7 @@ export default function HomePage() {
             </div>
 
             <h1 className="hero-title">
-              <span className="hero-line">안녕하세요</span>
+              <span className="hero-line">방가워요</span>
               <span className="hero-line">
                 <span className="highlight-name">소피아</span>입니다
               </span>
