@@ -1,22 +1,12 @@
 {
   "name": "my-first-site",
-  "version": "1.0.0",
-  "description": "나의 첫 번째 웹사이트 - 로컬 개발 프로젝트",
-  "main": "server.js",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start"
   },
-  "keywords": [
-    "html",
-    "css",
-    "javascript",
-    "portfolio",
-    "starter"
-  ],
-  "author": "",
-  "license": "MIT",
   "dependencies": {
     "next": "^16.4.0",
     "react": "^19.3.0",
