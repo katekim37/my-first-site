@@ -14,7 +14,9 @@ export async function POST(request: Request) {
     }
 
     const apiKey = process.env.RESEND_API_KEY;
-    const receiverEmail = process.env.CONTACT_RECEIVER_EMAIL;
+    // 문의 내용을 수신할 관리자 이메일 (환경변수가 없어도 가입 계정인 kyungbae.kim73@gmail.com으로 안전하게 전송)
+    const receiverEmail =
+      process.env.CONTACT_RECEIVER_EMAIL || "kyungbae.kim73@gmail.com";
     const fromEmail = process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
 
     // RESEND_API_KEY가 아직 설정되지 않은 경우 친절한 안내와 함께 모의 전송 성공 처리
@@ -28,14 +30,13 @@ export async function POST(request: Request) {
     }
 
     const resend = new Resend(apiKey);
-    const toAddress =
-      receiverEmail && receiverEmail.trim() !== "" ? receiverEmail : email;
+    const toAddress = receiverEmail;
 
     const emailResponse = await resend.emails.send({
       from: fromEmail,
       to: [toAddress],
       replyTo: email,
-      subject: `[MyFirstSite 문의] ${name}님의 새로운 문의사항 (${category})`,
+      subject: `[MyFirstSite 문의] ${name} (${email})님의 새로운 문의사항 (${category})`,
       html: `
         <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; padding: 28px; border: 1px solid #e2e8f0; border-radius: 16px; background-color: #ffffff;">
           <h2 style="color: #2eada5; margin-top: 0; margin-bottom: 16px; border-bottom: 2px solid #b1f8f2; padding-bottom: 10px;">
