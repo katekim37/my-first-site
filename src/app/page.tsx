@@ -191,8 +191,8 @@ export default function HomePage() {
     });
   };
 
-  // Inquiry Submit handler
-  const handleInquirySubmit = (e: React.FormEvent) => {
+  // Inquiry Submit handler (Resend API 연동)
+  const handleInquirySubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!inquiryForm.name.trim()) {
       showToast("성함 또는 닉네임을 입력해 주세요.", "⚠️");
@@ -208,7 +208,21 @@ export default function HomePage() {
     }
 
     setIsSubmitting(true);
-    setTimeout(() => {
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(inquiryForm),
+      });
+      const data = await response.json();
+
+      if (!response.ok) {
+        showToast(data.error || "이메일 전송에 실패했습니다.", "❌");
+        setIsSubmitting(false);
+        return;
+      }
+
+      // 로컬 스토리지에도 문의 내역 기록
       try {
         const existing = JSON.parse(
           localStorage.getItem("my_site_inquiries") || "[]"
@@ -216,10 +230,11 @@ export default function HomePage() {
         existing.push({
           ...inquiryForm,
           createdAt: new Date().toISOString(),
+          sentViaResend: data.mode === "resend",
         });
         localStorage.setItem("my_site_inquiries", JSON.stringify(existing));
       } catch (err) {
-        console.error("문의 저장 오류:", err);
+        console.error("문의 로컬 저장 오류:", err);
       }
 
       setIsSubmitting(false);
@@ -231,8 +246,17 @@ export default function HomePage() {
         message: "",
       });
       launchConfetti();
-      showToast("소중한 문의사항이 접수되었습니다! 곧 연락드릴게요 💌", "✨");
-    }, 600);
+
+      if (data.mode === "resend") {
+        showToast("Resend를 통해 문의 이메일이 발송되었습니다! 💌", "🚀");
+      } else {
+        showToast("문의가 접수되었습니다! (.env.local에 API 키 입력 시 실제 메일 발송)", "✨");
+      }
+    } catch (err) {
+      console.error("문의 전송 통신 오류:", err);
+      showToast("전송 중 네트워크 오류가 발생했습니다.", "⚠️");
+      setIsSubmitting(false);
+    }
   };
 
   // Close modal on Escape key
