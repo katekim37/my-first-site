@@ -40,6 +40,16 @@ export default function HomePage() {
   // Snippet copy state
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
 
+  // Inquiry Modal State
+  const [isInquiryOpen, setIsInquiryOpen] = useState<boolean>(false);
+  const [inquiryForm, setInquiryForm] = useState({
+    name: "",
+    email: "",
+    category: "프로젝트 협업",
+    message: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
   // Confetti canvas ref
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const animationFrameRef = useRef<number | null>(null);
@@ -176,10 +186,65 @@ export default function HomePage() {
   const handleCopySnippet = (key: string, text: string) => {
     navigator.clipboard.writeText(text).then(() => {
       setCopiedKey(key);
-      showToast("클립보드에 코드가 복사되었습니다! 📋", "✓");
+      showToast("클립보드에 복사되었습니다! 📋", "✓");
       setTimeout(() => setCopiedKey(null), 2000);
     });
   };
+
+  // Inquiry Submit handler
+  const handleInquirySubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!inquiryForm.name.trim()) {
+      showToast("성함 또는 닉네임을 입력해 주세요.", "⚠️");
+      return;
+    }
+    if (!inquiryForm.email.trim() || !inquiryForm.email.includes("@")) {
+      showToast("올바른 이메일 형식을 입력해 주세요.", "⚠️");
+      return;
+    }
+    if (!inquiryForm.message.trim()) {
+      showToast("문의 내용을 입력해 주세요.", "⚠️");
+      return;
+    }
+
+    setIsSubmitting(true);
+    setTimeout(() => {
+      try {
+        const existing = JSON.parse(
+          localStorage.getItem("my_site_inquiries") || "[]"
+        );
+        existing.push({
+          ...inquiryForm,
+          createdAt: new Date().toISOString(),
+        });
+        localStorage.setItem("my_site_inquiries", JSON.stringify(existing));
+      } catch (err) {
+        console.error("문의 저장 오류:", err);
+      }
+
+      setIsSubmitting(false);
+      setIsInquiryOpen(false);
+      setInquiryForm({
+        name: "",
+        email: "",
+        category: "프로젝트 협업",
+        message: "",
+      });
+      launchConfetti();
+      showToast("소중한 문의사항이 접수되었습니다! 곧 연락드릴게요 💌", "✨");
+    }, 600);
+  };
+
+  // Close modal on Escape key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isInquiryOpen) {
+        setIsInquiryOpen(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isInquiryOpen]);
 
   // Mount effects
   useEffect(() => {
@@ -274,6 +339,16 @@ export default function HomePage() {
             <li><a href="#playground">플레이그라운드</a></li>
             <li><a href="#guide">가이드</a></li>
             <li><a href="#stats">서버 상태</a></li>
+            <li>
+              <button
+                id="btnInquiryNav"
+                className="nav-inquiry-btn"
+                onClick={() => setIsInquiryOpen(true)}
+              >
+                <span>문의사항 남기기</span>
+                <span style={{ fontSize: "1rem" }}>&gt;</span>
+              </button>
+            </li>
           </ul>
 
           <div className="nav-actions">
@@ -375,6 +450,14 @@ export default function HomePage() {
                 }}
               >
                 <span>🎉 시작 축하 파티클 터뜨리기</span>
+              </button>
+              <button
+                className="btn btn-inquiry"
+                id="btnInquiryHero"
+                onClick={() => setIsInquiryOpen(true)}
+              >
+                <span>문의사항 남기기</span>
+                <span className="arrow-icon">&gt;</span>
               </button>
               <a href="#playground" className="btn btn-secondary" id="btnExplore">
                 <span>인터랙티브 기능 둘러보기 ↓</span>
@@ -673,6 +756,161 @@ export default function HomePage() {
           </div>
         </div>
       </footer>
+
+      {/* Inquiry Modal Popup */}
+      {isInquiryOpen && (
+        <div
+          className="modal-backdrop"
+          id="inquiryModalBackdrop"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setIsInquiryOpen(false);
+          }}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="inquiryModalTitle"
+        >
+          <div className="modal-card">
+            <div className="modal-header">
+              <div className="modal-header-text">
+                <h3 className="modal-title" id="inquiryModalTitle">
+                  <span>💌</span> 문의사항 남기기
+                </h3>
+                <p className="modal-subtitle">
+                  소피아에게 전하고 싶은 메시지나 협업 제안을 자유롭게 남겨주세요.
+                </p>
+              </div>
+              <button
+                className="modal-close-btn"
+                onClick={() => setIsInquiryOpen(false)}
+                title="닫기 (Esc)"
+                aria-label="모달 닫기"
+              >
+                ✕
+              </button>
+            </div>
+
+            <form className="inquiry-form" onSubmit={handleInquirySubmit}>
+              <div className="form-group">
+                <label className="form-label" htmlFor="inquiryName">
+                  <span>👤 성함 / 닉네임</span>
+                  <span className="required">*</span>
+                </label>
+                <input
+                  id="inquiryName"
+                  type="text"
+                  className="form-input"
+                  placeholder="예: 홍길동"
+                  value={inquiryForm.name}
+                  onChange={(e) =>
+                    setInquiryForm({ ...inquiryForm, name: e.target.value })
+                  }
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label className="form-label" htmlFor="inquiryEmail">
+                  <span>✉️ 연락받으실 이메일</span>
+                  <span className="required">*</span>
+                </label>
+                <input
+                  id="inquiryEmail"
+                  type="email"
+                  className="form-input"
+                  placeholder="예: contact@example.com"
+                  value={inquiryForm.email}
+                  onChange={(e) =>
+                    setInquiryForm({ ...inquiryForm, email: e.target.value })
+                  }
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label className="form-label">
+                  <span>🏷️ 문의 유형</span>
+                </label>
+                <div className="category-chips">
+                  {["프로젝트 협업", "아이디어 제안", "일반 문의", "응원 & 커피챗 ☕"].map(
+                    (cat) => (
+                      <button
+                        type="button"
+                        key={cat}
+                        className={`category-chip ${
+                          inquiryForm.category === cat ? "active" : ""
+                        }`}
+                        onClick={() =>
+                          setInquiryForm({ ...inquiryForm, category: cat })
+                        }
+                      >
+                        {cat}
+                      </button>
+                    )
+                  )}
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label className="form-label" htmlFor="inquiryMessage">
+                  <span>📝 문의 내용</span>
+                  <span className="required">*</span>
+                </label>
+                <textarea
+                  id="inquiryMessage"
+                  className="form-textarea"
+                  placeholder="궁금한 사항이나 나누고 싶은 이야기를 적어주세요..."
+                  value={inquiryForm.message}
+                  onChange={(e) =>
+                    setInquiryForm({ ...inquiryForm, message: e.target.value })
+                  }
+                  required
+                ></textarea>
+              </div>
+
+              <div className="direct-email-box">
+                <div className="direct-email-text">
+                  <span>📧 직접 이메일 보내기:</span>
+                  <span className="direct-email-address">sophia@example.com</span>
+                </div>
+                <button
+                  type="button"
+                  className="email-copy-btn"
+                  onClick={() =>
+                    handleCopySnippet("direct-email", "sophia@example.com")
+                  }
+                >
+                  {copiedKey === "direct-email" ? "복사됨! ✓" : "이메일 복사"}
+                </button>
+              </div>
+
+              <div className="form-footer-actions">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => setIsInquiryOpen(false)}
+                >
+                  취소
+                </button>
+                <button
+                  type="submit"
+                  className="btn btn-inquiry"
+                  id="btnSubmitInquiry"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? (
+                    <span>전송 중... ⏳</span>
+                  ) : (
+                    <>
+                      <span>문의사항 보내기</span>
+                      <span className="arrow-icon">✈️</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </>
   );
 }
