@@ -2,8 +2,31 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.loveaffair.cloud"),
   title: "방가워요 소피아입니다 | 마이 퍼스트 사이트",
   description: "나의 첫 번째 웹사이트 프로젝트. HTML, CSS, JavaScript로 구현된 모던 인터랙티브 웹 애플리케이션입니다.",
+  openGraph: {
+    title: "방가워요 소피아입니다 | 마이 퍼스트 사이트",
+    description: "나의 첫 번째 웹사이트 프로젝트. HTML, CSS, JavaScript로 구현된 모던 인터랙티브 웹 애플리케이션입니다.",
+    url: "https://www.loveaffair.cloud",
+    siteName: "방가워요 소피아입니다 | 마이 퍼스트 사이트",
+    images: [
+      {
+        url: "/hero_showcase.jpg",
+        width: 1200,
+        height: 630,
+        alt: "방가워요 소피아입니다 | 마이 퍼스트 사이트",
+      },
+    ],
+    locale: "ko_KR",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "방가워요 소피아입니다 | 마이 퍼스트 사이트",
+    description: "나의 첫 번째 웹사이트 프로젝트. HTML, CSS, JavaScript로 구현된 모던 인터랙티브 웹 애플리케이션입니다.",
+    images: ["/hero_showcase.jpg"],
+  },
   icons: {
     icon: "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>",
   },
