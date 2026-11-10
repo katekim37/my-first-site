@@ -360,17 +360,16 @@ export default function HomePage() {
 
           <ul className="nav-links">
             <li><a href="#hero">홈</a></li>
-            <li><a href="#playground">플레이그라운드</a></li>
-            <li><a href="#guide">가이드</a></li>
-            <li><a href="#stats">서버 상태</a></li>
+            <li><a href="#playground">소개 & 기능</a></li>
+            <li><a href="#projects">프로젝트</a></li>
             <li>
               <button
                 id="btnInquiryNav"
                 className="nav-inquiry-btn"
                 onClick={() => setIsInquiryOpen(true)}
               >
-                <span>문의사항 남기기</span>
-                <span style={{ fontSize: "1rem" }}>&gt;</span>
+                <span>문의하기</span>
+                <span style={{ fontSize: "1rem" }}>✉️</span>
               </button>
             </li>
           </ul>
@@ -380,10 +379,10 @@ export default function HomePage() {
             <div
               className="status-pill"
               id="serverStatusPill"
-              title="Next.js 서버 정상 작동 중"
+              title="소피아의 웹 공간에 오신 것을 환영합니다"
             >
               <span className="status-dot"></span>
-              <span id="serverPortText">{hostText}</span>
+              <span id="serverPortText">방문 환영 🌿</span>
             </div>
 
             {/* Quick Theme Switcher */}
@@ -427,12 +426,12 @@ export default function HomePage() {
           <div className="hero-content">
             <div className="hero-badge-wrap">
               <div className="hero-pill">
-                <span>🚀</span>
-                <span>첫 웹사이트 프로젝트 시작</span>
+                <span>✨</span>
+                <span>소피아의 개인 웹 공간</span>
               </div>
               <span className="status-pill">
                 <span className="status-dot"></span>
-                <span>Next.js 런타임 정상 실행 중</span>
+                <span>새로운 만남 & 협업 환영</span>
               </span>
             </div>
 
@@ -449,6 +448,12 @@ export default function HomePage() {
                 alt="소피아 프로필 사진"
                 className="hero-avatar"
                 id="heroProfileImg"
+                title="소피아를 클릭하면 축하 파티클이 터집니다 🎉"
+                onClick={(e) => {
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  launchConfetti(rect.left + rect.width / 2, rect.top + rect.height / 2, 80);
+                  showToast("소피아의 공간에 오신 것을 환영해요! 🎉", "✨");
+                }}
                 onError={(e) => {
                   // Fallback to /assets/profile.jpg
                   const target = e.currentTarget;
@@ -460,21 +465,14 @@ export default function HomePage() {
             </div>
 
             <p className="hero-desc">
-              Next.js 웹 애플리케이션으로 성공적으로 전환되었습니다! 컴포넌트, 스타일, 인터랙션을 자유롭게 확장하여 나만의 멋진 포트폴리오를 만들어보세요.
+              안녕하세요! [ ] 분야에서 [ ]을 만들어가는 소피아입니다.
+              다양한 인터랙션과 작업물을 둘러보시고 언제든 편하게 이야기 나눠요.
             </p>
 
             <div className="hero-cta">
-              <button
-                className="btn btn-primary"
-                id="btnCelebrate"
-                onClick={(e) => {
-                  const rect = e.currentTarget.getBoundingClientRect();
-                  launchConfetti(rect.left + rect.width / 2, rect.top + rect.height / 2, 90);
-                  showToast("축하합니다! Next.js 정상 배포 완료! 🎉", "🚀");
-                }}
-              >
-                <span>🎉 시작 축하 파티클 터뜨리기</span>
-              </button>
+              <a href="#projects" className="btn btn-primary" id="btnExplore">
+                <span>프로젝트 둘러보기 ↓</span>
+              </a>
               <button
                 className="btn btn-inquiry"
                 id="btnInquiryHero"
@@ -483,9 +481,17 @@ export default function HomePage() {
                 <span>문의사항 남기기</span>
                 <span className="arrow-icon">&gt;</span>
               </button>
-              <a href="#playground" className="btn btn-secondary" id="btnExplore">
-                <span>인터랙티브 기능 둘러보기 ↓</span>
-              </a>
+              <button
+                className="btn btn-secondary"
+                id="btnCelebrate"
+                onClick={(e) => {
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  launchConfetti(rect.left + rect.width / 2, rect.top + rect.height / 2, 80);
+                  showToast("기분 좋은 하루 보내세요! 🎉", "✨");
+                }}
+              >
+                <span>🎉 환영 축하하기</span>
+              </button>
             </div>
           </div>
         </section>
@@ -494,9 +500,9 @@ export default function HomePage() {
         <section className="container playground-section" id="playground">
           <div className="section-header">
             <span className="section-tag">Interactive Features</span>
-            <h2 className="section-title">인터랙티브 플레이그라운드</h2>
+            <h2 className="section-title">소피아의 인터랙티브 룸</h2>
             <p className="section-desc">
-              리액트의 역동적인 상태 관리를 직접 경험해보세요. 버튼을 누르고 테마를 바꾸며 실시간 인터랙션을 확인해보세요.
+              직접 클릭하고 체험해볼 수 있는 반응형 인터랙션 공간입니다. 테마를 바꾸고 소피아에게 응원의 메시지를 남겨보세요.
             </p>
           </div>
 
@@ -504,10 +510,10 @@ export default function HomePage() {
             {/* Card 1: Interactive Click Counter */}
             <article className="card" id="cardCounter">
               <div className="card-header">
-                <div className="card-icon">⚡</div>
+                <div className="card-icon">💖</div>
                 <div>
-                  <h3 className="card-title">클릭 인터랙션 & 카운터</h3>
-                  <p className="card-desc">숫자를 올려보세요. 10단위마다 특별한 축하 효과가 나타납니다!</p>
+                  <h3 className="card-title">소피아 응원 카운터</h3>
+                  <p className="card-desc">버튼을 눌러 응원을 보내주세요! 10단위마다 특별한 축하 효과가 나타납니다.</p>
                 </div>
               </div>
 
@@ -552,40 +558,40 @@ export default function HomePage() {
                 </div>
                 <div className="milestone-badge" id="milestoneBadge">
                   {counter === 0
-                    ? "시작 버튼을 눌러보세요!"
+                    ? "응원 버튼을 눌러보세요!"
                     : counter % 10 === 0
-                    ? `🎯 대단해요! ${counter} 달성!`
-                    : `현재 카운트: ${counter}`}
+                    ? `🎯 따뜻한 응원 감사합니다! ${counter}개 달성!`
+                    : `현재 누적 응원: ${counter}개`}
                 </div>
               </div>
             </article>
 
-            {/* Card 2: Live Server & System Stats */}
+            {/* Card 2: Profile & Info */}
             <article className="card" id="stats">
               <div className="card-header">
-                <div className="card-icon">📊</div>
+                <div className="card-icon">👤</div>
                 <div>
-                  <h3 className="card-title">서버 & 런타임 현황</h3>
-                  <p className="card-desc">현재 실행 중인 Next.js 및 브라우저 호스팅 정보입니다.</p>
+                  <h3 className="card-title">소피아 프로필 & 활동 정보</h3>
+                  <p className="card-desc">소피아에 대한 기본 정보와 주요 관심 분야입니다.</p>
                 </div>
               </div>
 
               <div className="stats-list">
                 <div className="stat-item">
-                  <span className="stat-label"><span>🌐</span> 호스트 주소</span>
-                  <span className="stat-value stat-highlight" id="statHost">{hostText}</span>
+                  <span className="stat-label"><span>🏷️</span> 활동 분야</span>
+                  <span className="stat-value stat-highlight">[ ]</span>
                 </div>
                 <div className="stat-item">
-                  <span className="stat-label"><span>⏱️</span> 접속 유지 시간</span>
+                  <span className="stat-label"><span>📍</span> 거점 / 활동 지역</span>
+                  <span className="stat-value">[ ]</span>
+                </div>
+                <div className="stat-item">
+                  <span className="stat-label"><span>💡</span> 관심 기술</span>
+                  <span className="stat-value stat-highlight">Next.js, React, 웹 인터랙션, [ ]</span>
+                </div>
+                <div className="stat-item">
+                  <span className="stat-label"><span>⏱️</span> 사이트 체류 시간</span>
                   <span className="stat-value" id="statUptime">{uptime}</span>
-                </div>
-                <div className="stat-item">
-                  <span className="stat-label"><span>💻</span> 브라우저 환경</span>
-                  <span className="stat-value" id="statPlatform">{platformText}</span>
-                </div>
-                <div className="stat-item">
-                  <span className="stat-label"><span>⚡</span> 렌더링 프레임워크</span>
-                  <span className="stat-value stat-highlight">Next.js App Router (React 19)</span>
                 </div>
               </div>
             </article>
@@ -656,8 +662,8 @@ export default function HomePage() {
               <div className="card-header">
                 <div className="card-icon">📝</div>
                 <div>
-                  <h3 className="card-title">개발 아이디어 메모장</h3>
-                  <p className="card-desc">입력하는 즉시 브라우저 저장소(localStorage)에 자동 저장됩니다.</p>
+                  <h3 className="card-title">방명록 & 응원 메모장</h3>
+                  <p className="card-desc">소피아에게 남기고 싶은 메모나 응원을 적어보세요. (브라우저에 자동 저장)</p>
                 </div>
               </div>
 
@@ -665,7 +671,7 @@ export default function HomePage() {
                 <textarea
                   id="quickNoteArea"
                   className="note-input"
-                  placeholder="여기에 만들고 싶은 사이트 아이디어나 할 일(To-do)을 적어보세요..."
+                  placeholder="소피아에게 전하고 싶은 이야기나 응원의 한마디를 적어보세요..."
                   value={noteContent}
                   onChange={handleNoteChange}
                 ></textarea>
@@ -678,76 +684,58 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Project Guide Section */}
-        <section className="container guide-section" id="guide">
+        {/* Project Section */}
+        <section className="container guide-section" id="projects">
           <div className="section-header">
-            <span className="section-tag">Getting Started</span>
-            <h2 className="section-title">다음 단계는 무엇인가요?</h2>
+            <span className="section-tag">Projects & Story</span>
+            <h2 className="section-title">소피아의 프로젝트 & 스토리</h2>
             <p className="section-desc">
-              내 손으로 직접 코드를 바꾸어보고 화면이 즉시 바뀌는 마법을 확인해보세요.
+              소피아가 직접 구상하고 만들어가는 작업물과 여정을 소개합니다.
             </p>
           </div>
 
           <div className="guide-grid">
-            {/* Guide 1 */}
-            <article className="guide-card" id="guideHtml">
+            {/* Project 1 */}
+            <article className="guide-card" id="project1">
               <div className="guide-number">01</div>
-              <div className="guide-icon">⚛️</div>
-              <h3 className="guide-card-title">Next.js 페이지 수정하기</h3>
-              <p className="guide-card-desc">
-                <span className="code-badge">src/app/page.tsx</span> 파일을 열고 제목, 소개 문구, 프로필 등을 내 것으로 바꾸어 보세요.
-              </p>
-              <div className="snippet-box">
-                <button
-                  className="copy-btn"
-                  onClick={() => handleCopySnippet("s1", "<h1>소피아의 Next.js 포트폴리오</h1>")}
-                >
-                  {copiedKey === "s1" ? "복사됨!" : "복사"}
-                </button>
-                <div className="snippet-content">
-                  {"<h1>소피아의 Next.js 포트폴리오</h1>"}
-                </div>
-              </div>
-            </article>
-
-            {/* Guide 2 */}
-            <article className="guide-card" id="guideCss">
-              <div className="guide-number">02</div>
-              <div className="guide-icon">🎨</div>
-              <h3 className="guide-card-title">글로벌 스타일 꾸미기</h3>
-              <p className="guide-card-desc">
-                <span className="code-badge">src/app/globals.css</span>의 <code>:root</code> 변수를 변경하여 나만의 시그니처 색상을 입혀보세요.
-              </p>
-              <div className="snippet-box">
-                <button
-                  className="copy-btn"
-                  onClick={() => handleCopySnippet("s2", "--accent-primary: #4abdb5;")}
-                >
-                  {copiedKey === "s2" ? "복사됨!" : "복사"}
-                </button>
-                <div className="snippet-content">
-                  {"--accent-primary: #4abdb5;"}
-                </div>
-              </div>
-            </article>
-
-            {/* Guide 3 */}
-            <article className="guide-card" id="guideJs">
-              <div className="guide-number">03</div>
               <div className="guide-icon">🚀</div>
-              <h3 className="guide-card-title">새로운 컴포넌트 추가</h3>
+              <h3 className="guide-card-title">마이 퍼스트 사이트 (MyFirstSite)</h3>
               <p className="guide-card-desc">
-                <span className="code-badge">src/components/</span> 폴더를 만들어 나만의 모듈형 리액트 컴포넌트를 조립해보세요.
+                Next.js App Router와 React 19 기반의 모던 인터랙티브 웹 공간입니다. 감각적인 테마 시스템과 반응형 디자인, 문의 모달을 구현했습니다.
               </p>
               <div className="snippet-box">
-                <button
-                  className="copy-btn"
-                  onClick={() => handleCopySnippet("s3", "export default function Widget() { return <div>My Widget</div> }")}
-                >
-                  {copiedKey === "s3" ? "복사됨!" : "복사"}
-                </button>
-                <div className="snippet-content">
-                  {"export default function Widget() { ... }"}
+                <div className="snippet-content" style={{ color: "var(--accent-primary)", fontWeight: 600 }}>
+                  {"#Next.js #React #인터랙티브 #포트폴리오"}
+                </div>
+              </div>
+            </article>
+
+            {/* Project 2 */}
+            <article className="guide-card" id="project2">
+              <div className="guide-number">02</div>
+              <div className="guide-icon">💡</div>
+              <h3 className="guide-card-title">[두 번째 프로젝트명]</h3>
+              <p className="guide-card-desc">
+                [프로젝트에 대한 간단한 소개와 역할을 적어주세요. 멋진 성과나 기능을 함께 기록하면 좋습니다.]
+              </p>
+              <div className="snippet-box">
+                <div className="snippet-content" style={{ color: "var(--text-secondary)" }}>
+                  {"#[주요기술] #[역할] #[ ]"}
+                </div>
+              </div>
+            </article>
+
+            {/* Project 3 */}
+            <article className="guide-card" id="project3">
+              <div className="guide-number">03</div>
+              <div className="guide-icon">🌱</div>
+              <h3 className="guide-card-title">[관심 분야 / 진행 예정 작업]</h3>
+              <p className="guide-card-desc">
+                [소피아가 새롭게 도전하고 싶은 분야나 앞으로 오픈할 서비스/스터디 계획을 적어주세요.]
+              </p>
+              <div className="snippet-box">
+                <div className="snippet-content" style={{ color: "var(--text-secondary)" }}>
+                  {"#[새로운도전] #[ ]"}
                 </div>
               </div>
             </article>
@@ -765,18 +753,24 @@ export default function HomePage() {
       <footer className="footer">
         <div className="container footer-content">
           <div className="footer-text">
-            © 2026 <strong>MyFirstSite</strong> • Next.js App Router로 Vercel에 안전하게 배포되었습니다.
+            © 2026 <strong>소피아 (Sophia)</strong> • 모든 방문을 진심으로 환영합니다.
           </div>
           <div className="footer-links">
-            <a href="#hero" className="footer-link">맨 위로</a>
-            <a
-              href="https://nextjs.org/docs"
-              target="_blank"
-              rel="noopener noreferrer"
+            <a href="#hero" className="footer-link">맨 위로 ↑</a>
+            <button
               className="footer-link"
+              onClick={() => setIsInquiryOpen(true)}
+              style={{
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                font: "inherit",
+                color: "inherit",
+                padding: 0,
+              }}
             >
-              Next.js 공식 문서
-            </a>
+              소피아에게 문의하기
+            </button>
           </div>
         </div>
       </footer>
